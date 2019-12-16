@@ -45,14 +45,10 @@ trees: $(YANG_DESC_TREES) $(YANG_DESC_JSTREES) $(YANG_RECORD_TREES) $(YANG_RECOR
 
 openapi_schemas: $(OPENAPI_SCHEMAS)
 
-$(OUT_DIR):
-	$(Q)mkdir -p $(OUT_DIR)
-	$(Q)touch $(OUT_DIR)/__init__.py
-
 $(TREES_DIR):
 	$(Q)mkdir -p $(TREES_DIR)
 
-%.py: $(OUT_DIR) yang-ietf
+%.py: yang-ietf
 	$(Q)echo generating $@ from $*.yang
 	$(Q)pyang $(PYANG_OPTIONS) --path $(MODEL_DIR) --plugindir $(PYBINDPLUGIN) -f pybind -o $(OUT_DIR)/$@ $(MODEL_DIR)/$*.yang
 
@@ -78,7 +74,7 @@ $(TREES_DIR):
 	$(Q)sed -r -i 's|<a href=\"http://www.tail-f.com">|<a href="http://osm.etsi.org">|g' $(TREES_DIR)/$@
 	$(Q)mv $(TREES_DIR)/$@ $(TREES_DIR)/$*.html
 
-osm.yaml: $(OUT_DIR) yang-ietf yang2swagger
+osm.yaml: yang-ietf yang2swagger
 	$(Q)echo generating $@
 	$(Q)$(JAVA) -jar ${HOME}/.m2/repository/com/mrv/yangtools/swagger-generator-cli/1.1.11/swagger-generator-cli-1.1.11-executable.jar -yang-dir $(MODEL_DIR) -output $(OUT_DIR)/$@
 
@@ -108,4 +104,4 @@ deps:
 	$(Q)cp -n ~/.m2/settings.xml{,.orig} ; wget -q -O - https://raw.githubusercontent.com/opendaylight/odlparent/master/settings.xml > ~/.m2/settings.xml
 
 clean:
-	$(Q)rm -rf dist osm_im.egg-info deb deb_dist *.gz yang2swagger $(OUT_DIR) $(TREES_DIR)
+	$(Q)rm -rf dist osm_im.egg-info deb deb_dist *.gz osm-imdocs* yang2swagger $(TREES_DIR)

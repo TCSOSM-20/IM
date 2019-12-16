@@ -559,6 +559,7 @@ module nsd-base
         "Information about NS configuration.";
 
       uses manotypes:vca-configuration;
+      uses manotypes:vca-relations;
     }
 
     uses manotypes:input-parameter-xpath;

@@ -189,7 +189,7 @@ module nsr
       description
           "Name of the primitive.";
       type string;
-      mandatory "true";
+      mandatory true;
     }
 
     leaf user-defined-script {

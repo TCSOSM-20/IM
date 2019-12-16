@@ -12,9 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-[DEFAULT]
-Suite: xenial
-Build-Depends: dh-python
-Maintainer: Gerardo Garcia <gerardo.garciadeblas@telefonica.com>
-Depends: osm-imdocs
-Depends3: osm-imdocs
+recursive-include models *.yang

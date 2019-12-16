@@ -176,7 +176,7 @@ module mano-types
       description
           "Name of the configuration primitive.";
       type string;
-      mandatory "true";
+      mandatory true;
     }
 
     leaf user-defined-script {
@@ -221,22 +221,36 @@ module mano-types
   }
 
 
-  grouping vca-relationships {
-    container vca-relationships {
-      list relation {
-        description "List of relations between VCA componets.";
+  grouping vca-relations {
+    list relation {
+      description "List of relations between elements in this descriptor.";
+      key "name";
 
-        key "requires provides";
+      leaf name {
+        description
+          "Name of the relation.";
 
-        leaf requires {
+        type string;
+      }
+
+      list entities {
+        description
+          "List of two elements to be related.
+           Elements to be related are identified by a pair (id, endpoint).
+           The relation will relate (id1, endpoint1) to (id2, endpoint2).";
+        key "id";
+
+        leaf id {
           description
-            "Name of the required relation.";
+            "A string, reference to the element id in the descriptor.
+             It could be a vnfd-id or a vdu-id in a VNFD,
+             or a nsd-id or member-vnf-index in a NSD.";
           type string;
         }
 
-        leaf provides {
+        leaf endpoint {
           description
-            "Name of the provided relation.";
+            "Endpoint name defining the relation.";
           type string;
         }
       }
@@ -291,7 +305,6 @@ module mano-types
             type boolean;
             default true;
           }
-          uses manotypes:vca-relationships;
         }
       }
     }
