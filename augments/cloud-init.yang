@@ -17,7 +17,7 @@
 
 module cloud-init {
     yang-version 1.1;
-    namespace "urn:etsi:osm:yang:nsd:augments:cloud-init";
+    namespace "urn:etsi:osm:yang:augments";
     prefix "cloud-init";
 
     import etsi-nfv-vnfd {
