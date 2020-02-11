@@ -179,7 +179,7 @@ module instantiation-parameters {
       type inet:ip-prefix;
     }
     leaf gateway-address {
-      type inet:ip-prefix;
+      type inet:ip-address;
     }
     list dns-server {
       key "address";
