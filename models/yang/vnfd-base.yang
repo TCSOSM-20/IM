@@ -1,7 +1,7 @@
-
 /*
  *
  *   Copyright 2017 RIFT.IO Inc
+ *   Copyright 2018-2020 ETSI
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -675,6 +675,38 @@ module vnfd-base
               type string;
             }
           }
+        }
+
+        list service {
+          description
+            "List of Kubernetes services exposed by the KDU.
+             If empty, all services are assumed to be exposed in the CP associated to the first network
+             in k8s-cluster.nets.";
+          key name;
+
+          leaf name {
+            description "Name of the Kubernetes service exposed by he KDU model";
+            type string;
+          }
+
+          leaf mgmt-service {
+            description
+                "Flag to indicate that this Kubernetes service is a mgmt service
+                to be used for KDU configuration. Defaults to false (if no present).
+                All services with mgmt-service set to true will be passed to the execution
+                environment in charge of the KDU configuration.";
+            type boolean;
+            default false;
+          }
+
+          leaf external-connection-point-ref {
+            description
+              "Leaf Ref to the particular external connection point";
+            type leafref {
+              path "../../../connection-point/name";
+            }
+          }
+
         }
 
       }
