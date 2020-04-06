@@ -101,7 +101,7 @@ deps:
 	$(Q)sudo -H python3 -m pip install -U pyang pyangbind stdeb
 	$(Q)sudo -H python2 -m pip install -U pyang pyangbind stdeb
 	$(Q)mkdir -p ~/.m2
-	$(Q)cp -n ~/.m2/settings.xml{,.orig} ; wget -q -O - https://raw.githubusercontent.com/opendaylight/odlparent/master/settings.xml > ~/.m2/settings.xml
+	$(Q)cp -n ~/.m2/settings.xml ~/.m2/settings.xml.orig ; wget -q -O - https://raw.githubusercontent.com/opendaylight/odlparent/master/settings.xml > ~/.m2/settings.xml
 
 clean:
 	$(Q)rm -rf dist osm_im.egg-info deb deb_dist *.gz osm-imdocs* yang2swagger $(TREES_DIR)
