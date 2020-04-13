@@ -433,15 +433,17 @@ module mano-types
   typedef virtual-link-type {
     description
         "Type of virtual link
-         ELAN: A multipoint service connecting a set of VNFs
-         ELINE: For a simple point to point connection
-         //        between a VNF and the existing network.
+         ELAN: A multipoint service connecting a set of elements
+         ELINE: A point-to-point service connecting two elements
+         L3: A service providing either Layer-3 visibility (IP) between
+             VDUs/VNFs or explicit interconnection between two ELAN VLDs.";
          // ETREE: A multipoint service connecting one or
          //        more roots and a set of leaves, but
          //        preventing inter-leaf communication.";
     type enumeration {
       enum ELAN;
       enum ELINE;
+      enum L3;
       // enum ETREE;
     }
   }
