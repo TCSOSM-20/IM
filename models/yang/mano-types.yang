@@ -268,6 +268,18 @@ module mano-types
           "Name of the metric, as defined in the Juju charm.";
         type string;
       }
+      leaf execution-environment-ref {
+        description
+          "Leaf reference to the particular execution environment getting that metric";
+        type leafref {
+          path "../../execution-environment-list/id";
+        }
+      }
+      leaf execution-environment-metric {
+        description
+          "Metric in the execution environment referenced by execution-environment-ref";
+        type string;
+      }
     }
   } // END - grouping vca-metrics
 
@@ -307,6 +319,69 @@ module mano-types
           }
         }
       }
+
+      case execution-environment-list {
+        description
+          "List of Execution Environments to configure or monitor VNF or VDU.";
+        list execution-environment-list {
+          key "id";
+          leaf id {
+            description "Execution environment identifier.";
+            type string;
+          }
+          choice execution-environment-model {
+            description "Execution environment model (juju, helm-chart)";
+            case juju {
+              description
+                "Interact with the VNF or xDU through Juju.";
+              container juju {
+                leaf charm {
+                  description "Juju charm to use with the VNF or VDU.";
+                  type string;
+                }
+                leaf proxy {
+                  description "Is this a proxy charm?";
+                  type boolean;
+                  default true;
+                }
+              }
+            }
+            case helm-chart {
+              description
+                "Interact with the VNF or xDU through Helm.";
+              leaf helm-chart {
+                description
+                  "Helm chart that models the execution environment, in any of the following ways:
+                   - <helm-repo>/<helm-chart>
+                   - <helm-chart folder name under helm-charts folder in the package>
+                   - <helm-chart tgz file (w/ or w/o extension) under helm-charts folder in the package>
+                   - <URL_where_to_fetch_chart>
+                  ";
+                type string;
+              }
+            }
+          }
+          leaf metric-service {
+            description
+              "Service name in the execution environment. For helm charts, it will be
+               the name of the kubernetes service used by the exporter to expose metrics
+               to the OSM collector.
+              ";
+            type string;
+          }
+          leaf connection-point-ref {
+            description
+              "String representing a leaf reference to the particular external connection point
+               This field should match /vnfd:vnfd-catalog/vnfd:vnfd/vnfd:id/vnfd:connection-point/vnfd:name
+              ";
+            type string;
+            // type leafref {
+            //   path "/vnfd:vnfd-catalog/vnfd:vnfd/vnfd:id/vnfd:connection-point/vnfd:name";
+            // }
+          }
+        }
+      }
+
     }
   }
 
@@ -359,6 +434,21 @@ module mano-types
         type string;
       }
 
+      leaf execution-environment-ref {
+        description
+          "Leaf reference to the particular execution environment";
+        type leafref {
+          path "../../execution-environment-list/id";
+        }
+      }
+
+      leaf execution-environment-primitive {
+        description
+          "Name of the primitive in the execution enviroment. If not explicit,
+           the leaf 'name' will be used as the name of the primitive.";
+        type string;
+      }
+
       list parameter {
         description
           "List of parameters to the config primitive.";
@@ -388,8 +478,16 @@ module mano-types
         case primitive-definition {
           leaf name {
             description
-              "Name of the configuration primitive.";
+              "Name of the configuration primitive in the execution environment.";
             type string;
+          }
+
+          leaf execution-environment-ref {
+            description
+              "Leaf reference to the particular execution environment";
+            type leafref {
+              path "../../execution-environment-list/id";
+            }
           }
 
           uses primitive-parameter-value;
@@ -414,8 +512,16 @@ module mano-types
       }
       leaf name {
         description
-          "Name of the configuration primitive.";
+          "Name of the configuration primitive in the execution environment.";
         type string;
+      }
+
+      leaf execution-environment-ref {
+        description
+          "Leaf reference to the particular execution environment";
+        type leafref {
+          path "../../execution-environment-list/id";
+        }
       }
 
       uses primitive-parameter-value;
