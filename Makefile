@@ -91,7 +91,6 @@ yang2swagger:
 
 package:
 	tox -e build
-	tox -e build3
 	./build-docs.sh
 
 deps:
