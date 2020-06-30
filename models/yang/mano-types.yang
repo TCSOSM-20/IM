@@ -317,6 +317,16 @@ module mano-types
             type boolean;
             default true;
           }
+          leaf cloud {
+            description
+              "Type of cloud where the charm will be deployed. It only
+               applies to proxy charms (not native)";
+            type enumeration {
+              enum lxd;
+              enum k8s;
+            }
+            default lxd;
+          }
         }
       }
 
@@ -343,6 +353,16 @@ module mano-types
                   description "Is this a proxy charm?";
                   type boolean;
                   default true;
+                }
+                leaf cloud {
+                  description
+                    "Type of cloud where the charm will be deployed. It only
+                     applies to proxy charms (not native)";
+                  type enumeration {
+                    enum lxd;
+                    enum k8s;
+                  }
+                  default lxd;
                 }
               }
             }
